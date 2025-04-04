@@ -56,6 +56,7 @@ Before you begin, ensure you have the following installed:
 
 This project relies on several external services that need to be set up separately. Follow the detailed instructions in the documentation for each dependency:
 
+* [Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/) (auto-installed above)
 * [DynamoDB Local](docs/dynamodb-local.md)
 * [ChromaDB](docs/chromadb.md)
 * [via HuggingFace](docs/via-huggingface.md) or [llama.cpp](docs/llama-cpp.md)
