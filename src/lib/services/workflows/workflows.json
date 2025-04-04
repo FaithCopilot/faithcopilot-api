@@ -1,0 +1,38 @@
+[
+  {
+    "schema": "workflow/step/v1",
+    "id": "33yyzz",
+    "type": "context"
+  },
+  {
+    "schema": "workflow/step/v1",
+    "id": "456zzz",
+    "type": "workflow"
+  },
+  {
+    "schema": "workflow/step/v1",
+    "id": "123xyz",
+    "type": "adhoc",
+    "request": {
+      "url": "https://www.gotquestions.org/going-to-heaven.html",
+      "options": {
+        "method": "GET"
+      }
+    },
+    "parsers": {
+      "input": {
+        "enabled": false,
+        "code": ""
+      },
+      "output": {
+        "enabled": false,
+        "code": "const answerRegex = /<div itemprop=\"articleBody\">(.*?)</div>(.*?)</div>/s; const answerMatch = document_content.match(answerRegex); const answer = answerMatch ? (answerMatch[1] + answerMatch[2]).trim() : null;"
+      }
+    }
+  },
+  {
+    "schema": "workflow/step/v1",
+    "id": "7328372",
+    "type": "safety"
+  }
+]

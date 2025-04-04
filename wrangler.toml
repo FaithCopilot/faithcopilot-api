@@ -1,0 +1,52 @@
+name = "faithcopilot-api"
+main = "src/index.ts"
+compatibility_date = "2024-04-04"
+compatibility_flags = ["nodejs_compat"]
+#usage_model = "unbound"
+
+
+###############################################################################
+## ENV: DEV 
+###############################################################################
+
+#[env.dev]
+
+r2_buckets = [
+  { binding = "R2", bucket_name = "faithcopilot-dev", preview_bucket_name = "faithcopilot-dev" }
+]
+
+[vars]
+#[env.dev.vars]
+
+NODE_VERSION = "20.15.1"
+ENVIRONMENT = "dev"
+ORIGIN = [ "http://localhost:4321", "http://localhost:4322" ]
+
+BRAND = "FaithCopilot 💬✝️"
+
+
+# -------------------------
+# AUTH 
+# -------------------------
+
+#ENABLE_MFA=false
+ENABLE_HARDCODED_USERS=false
+JWT_ISSUER="localhost"
+JWT_AUDIENCE="localhost"
+# https://github.com/panva/jose/blob/f57c197846b6bc5a4d10b8f8bc202d5cba964fea/src/lib/secs.ts
+JWT_EXPIRATION="12h"
+COOKIE_NAME="SID"
+COOKIE_MAX_AGE=43200
+#COOKIE_MAX_AGE=30
+COOKIE_DOMAIN="localhost"
+
+
+# -------------------------
+# DB 
+# -------------------------
+
+AWS_ACCESS_KEY_ID="123XYZ"
+#AWS_REGION="us-east-1"
+AWS_DYNAMODB_ENDPOINT="https://dynamodb.us-east-1.amazonaws.com"
+AWS_DYNAMODB_TARGET_VERSION="20120810"
+AWS_DYNAMODB_TABLE="faithcopilot_dev"
