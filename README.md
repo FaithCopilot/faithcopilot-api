@@ -35,15 +35,21 @@ Before you begin, ensure you have the following installed:
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/your-username/your-project.git](https://github.com/your-username/your-project.git)
+    git clone [https://github.com/FaithCopilot/faithcopilot-api.git](https://github.com/FaithCopilot/faithcopilot-api.git)
     cd faithcopilot-api
     ```
 2.  Initialize the Node environment: 
-    `nvm use`
+    ```bash
+    nvm use
+    ```
 3.  Install the npm packages:
-    `pnpm install`
+    ```bash
+    pnpm install
+    ```
 4.  Start the API service:
-    `pnpm run dev`
+    ```bash
+    pnpm run dev
+    ```
 
 
 ### Configuring External Dependencies
