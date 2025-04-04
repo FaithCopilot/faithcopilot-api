@@ -35,7 +35,7 @@ Before you begin, ensure you have the following installed:
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/FaithCopilot/faithcopilot-api.git](https://github.com/FaithCopilot/faithcopilot-api.git)
+    git clone https://github.com/FaithCopilot/faithcopilot-api.git
     cd faithcopilot-api
     ```
 2.  Initialize the Node environment: 
