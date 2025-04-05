@@ -1,8 +1,8 @@
-# FaithCopilot 💬✝️  - "Helping you put the AI in fAIth"
+# FaithCopilot 🐟 - "Helping you put the AI in FAITH"
 
-FaithCopilot 💬✝️  (FC) API is an open source fork of FaithCopilot 💬✝️  Cloud ☁️  which enables local (private or even offline) usage of FC for personal, private, or enterprise use cases. It largely implements functionality available in the FC Cloud offering, but the Cloud offering will continue to move in a more public, consumer, and social direction.
+FaithCopilot 🐟 (FC) API is an open source fork of [FaithCopilot Cloud 🐟☁️ ](https://faithcopilot.com) which enables local (private or even offline) usage of FC for personal, private, or enterprise use cases. It largely implements functionality available in the FC Cloud offering, but the Cloud offering will continue to move in a more public, consumer, and social direction.
 
-While not technically required, normally FC API will deploy/run alongside the corresponding [FaithCopilot 💬✝️  Web App](https://github.com/FaithCopilot/faithcopilot-app)
+While not technically required, normally FC API will deploy/run alongside the corresponding [FaithCopilot 🐟 Web App](https://github.com/FaithCopilot/faithcopilot-app)
 
 
 ## Highlighted Features
