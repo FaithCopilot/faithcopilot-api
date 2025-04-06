@@ -139,3 +139,4 @@ NOTES
 *.bak
 scratch/
 chromadb/
+*.db

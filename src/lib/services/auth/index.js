@@ -4,7 +4,7 @@ import { generateToken, parseToken } from "@/services/crypto";
 
 import { selectIdentity, insertTx } from "@/services/db/dynamodb";
 
-import { getUserPK } from "@/services/db/entities";
+import { getOrgPK, getUserPK } from "@/services/db/entities";
 
 import {
   EntityConstants,
@@ -22,8 +22,8 @@ export const getNextLocation = ({ currentLocation, userData }) => {
 };
 
 const handleSignup = async ({ request, env, email, email_verified, password, provider }) => {
-  const oid = await generateTsuid();
   const uid = await generateTsuid();
+  const oid = uid; // TODO: handle invites
   // email data
   const emailData = {
     schema: SchemaConstants.Email.V1,
@@ -42,14 +42,24 @@ const handleSignup = async ({ request, env, email, email_verified, password, pro
   }
   // user data
   const userPK = getUserPK({ id: uid });
+  // TODO: migrate plan and status to org (app still using /account)
   const userData = {
     schema: SchemaConstants.User.V1,
     email,
     oid,
-    plan: "free",  // TODO: constant
+    uid,
+    plan: "free",
+    status: "active",
+  };
+  // org data
+  const orgData = {
+    schema: SchemaConstants.Org.V1,
+    oid,
+    uid,
+    plan: "free", // TODO: constant
     status: "active", // TODO: constant
   };
-  const orgPK = `org#${oid}`; // getOrgPK({ id: oid });
+  const orgPK = getOrgPK({ id: oid });
   // new account tx:
   const txValues = [
     {
@@ -65,6 +75,11 @@ const handleSignup = async ({ request, env, email, email_verified, password, pro
       pk: userPK,
       sk: userPK,
       data: JSON.stringify(userData),
+    },
+    {
+      pk: orgPK,
+      sk: orgPK,
+      data: JSON.stringify(orgData),
     },
     {
       pk: orgPK,
@@ -93,18 +108,22 @@ export const signup = async (request, env) => {
   return handleSignup({ request, env, email, password });
 };
 
-/*
-export const parseHardcodedUser = async({ email }) => {
+export const validateHardcodedEmail = async({ email, allowlist, blocklist }) => {
   try {
-    // conditional import - astro js
-    const usersData = (await import("functions/_data/users.json")).default;
-    return usersData?.[email];
+    // conditional imports - astro js
+    if (allowlist) {
+      const emailList = (await import("./email-allow-list.json")).default;
+      return emailList?.includes(email); // valid if email in allowlist
+    };
+    if (blocklist) {
+      const emailList = (await import("./email-block-list.json")).default;
+      return !emailList?.includes(email); // valid if email *not* in blocklist
+    };
   } catch (err) {
-    console.warn("Error loading 'data/users.json': ", err);
+    console.error("Error loading hardcoded email list(s): ", err);
     return err;
   };
 };
-*/
 
 export const isValidConfig = ({ env }) =>
   env?.JWT_SECRET &&
@@ -191,26 +210,25 @@ const handleGrantTypeTokenExchange = async ({ request, env, data, provider }) =>
   if (!email) {
     return new Response("Unauthorized", { status: 401 });
   }
-  // check hardcoded list, if enabled
-  if (env?.ENABLE_HARDCODED_USERS === true) {
-    const emailAllowlist = env?.HARDCODED_USERS ?? [];
-    if (!emailAllowlist.includes(email)) {
+  // check hardcoded ./src/lib/services/auth/email-allow-list.json, if enabled
+  if (env?.ENABLE_EMAIL_ALLOWLIST) {
+    const isValidHardcodedEmail = await validateHardcodedEmail({ email, allowlist: true });
+    if (!isValidHardcodedEmail) {
       return new Response("Unauthorized", { status: 401 });
-    }
-  }
-  let userData = null;
-  // TODO: re-enable?
-  // check hardcoded list, if enabled
-  //if (env?.ENABLE_HARDCODED_USERS === true) {
-  //  userData = await parseHardcodedUser({ email });
-  //} else {
-  userData = await getUserDataByEmail({ env, email });
-  //};
-  //if (!userData?.oid || !userData?.uid) {
-  if (!userData?.uid) {
+    };
+  };
+  // check hardcoded ./src/lib/services/auth/email-block-list.json, if enabled
+  if (env?.ENABLE_EMAIL_BLOCKLIST) {
+    const isValidHardcodedEmail = await validateHardcodedEmail({ email, blocklist: true });
+    if (!isValidHardcodedEmail) {
+      return new Response("Unauthorized", { status: 401 });
+    };
+  };
+  const userData = await getUserDataByEmail({ env, email });
+  const { oid, uid } = userData;
+  if (!oid || !uid) {
     return handleSignup({ request, env, email, email_verified, provider });
   };
-  const { oid, uid } = userData;
   // include email in JWT claims
   const claims = {
     email,

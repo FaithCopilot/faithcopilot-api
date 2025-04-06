@@ -39,7 +39,9 @@ export const BrandConstants = Object.freeze({
 
 export const EntityConstants = Object.freeze({
   EMAIL: "email",
+  ORG: "oid",
   USER: "uid",
+  TENANT: "tenid",
   KEY: "key",
   CODE: "code",
   NOTIFICATION: "notif",
@@ -90,6 +92,9 @@ export const LocationConstants = Object.freeze({
 export const SchemaConstants = Object.freeze({
   Email: {
     V1: "email/v1",
+  },
+  Org: {
+    V1: "org/v1",
   },
   User: {
     V1: "user/v1",

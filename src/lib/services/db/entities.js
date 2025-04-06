@@ -1,6 +1,7 @@
-import { EntityConstants } from "../../constants";
+import { EntityConstants } from "@/constants";
 
 export const getEmailPK = ({ email }) => `${EntityConstants.EMAIL}#${email}`;
+export const getOrgPK = ({ id }) => `${EntityConstants.ORG}#${id}`;
 export const getUserPK = ({ id }) => `${EntityConstants.USER}#${id}`;
 export const getUserAbacPK = ({ id, entity }) => `${EntityConstants.USER}#${id}#${entity}`;
 export const getCodePK = ({ code }) => `${EntityConstants.CODE}#${code}`;
