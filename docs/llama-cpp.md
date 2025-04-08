@@ -9,7 +9,7 @@
 [Search: Huggingface Models](https://huggingface.co/models?library=gguf&search=bge)
 
 ```sh
-wget -P /path/to/llama.cpp/models https://huggingface.co/CompendiumLabs/bge-base-en-v1.5-gguf/resolve/main/bge-base-en-v1.5-f16.gguf
+wget -P /path/to/llama.cpp/models/ https://huggingface.co/CompendiumLabs/bge-base-en-v1.5-gguf/resolve/main/bge-base-en-v1.5-f16.gguf
 ```
 
 ### Run
@@ -41,7 +41,7 @@ curl -X POST \
 - [Search: Huggingface Models](https://huggingface.co/models?library=gguf&search=TinyLlama)
 
 ```sh
-wget -P /home/zmccoy/sandbox/faithcopilot-api-local/ https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf
+wget -P /path/to/llama.cpp/models/ https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf
 ```
 
 ### Run
