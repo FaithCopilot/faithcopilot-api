@@ -18,7 +18,7 @@ wget -P /path/to/llama.cpp/models https://huggingface.co/CompendiumLabs/bge-base
 /path/to/llama.cpp/build/bin/llama-server -m /path/to/llama.cpp/models/bge-base-en-v1.5-f16.gguf --embedding --port 8002
 ```
 
-![[Pasted image 20250404224951.png]]
+![llama-cpp-1.png](../assets/images/llama-cpp-1.png)
 
 ## Test
 
@@ -51,7 +51,7 @@ wget -P /home/zmccoy/sandbox/faithcopilot-api-local/ https://huggingface.co/TheB
 /path/to/llama.cpp/build/bin/llama-server -m /path/to/llama.cpp/models/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf
 ```
 
-![[Pasted image 20250404225811.png]]
+![llama-cpp-2.png](../assets/images/llama-cpp-2.png)
 
 ### Test
 
@@ -70,4 +70,3 @@ curl -X POST \
   }' \
   http://localhost:8080/v1/chat/completions
 ```
-

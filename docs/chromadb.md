@@ -15,7 +15,7 @@ pip install chromadb
 chroma run --port 8001 --path /path/to/faithcopilot-api/chromadb
 ```
 
-![[Pasted image 20250404222918.png]]
+![chroma-1.png](../assets/images/chroma-1.png)
 
 ## Initial setup
 
@@ -40,7 +40,7 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{
     "documents": ["lorem ipsum...", "doc2", "doc3"],
-	"embeddings": [[1.1, 2.3, 3.2], [4.5, 6.9, 4.4], [1.1, 2.3, 3.2]],
+    "embeddings": [[1.1, 2.3, 3.2], [4.5, 6.9, 4.4], [1.1, 2.3, 3.2]],
     "metadatas": [{"chapter": "3", "verse": "16"}, {"chapter": "3", "verse": "5"}, {"chapter": "29", "verse": "11"}],
     "ids": ["id1", "id2", "id3"]
   }' \
@@ -52,16 +52,15 @@ curl -X POST \
 
 ### Query
 
-#TODO
 ```sh
 #!/bin/bash
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{
-    "query_embeddings": [],
-    "n_results": 1
+    "query_embeddings": [[1.1, 2.3, 3.2], [4.5, 6.9, 4.4], [1.1, 2.3, 3.2]],
+    "n_results": 2
   }' \
   http://localhost:8000/api/v1/collections/4d5fe939-1d3d-4d85-84cf-2c1ab8d7e991/query
 
-#??
+#...
 ```
