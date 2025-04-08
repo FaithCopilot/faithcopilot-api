@@ -57,6 +57,6 @@ Before you begin, ensure you have the following installed:
 This project relies on several external services that need to be set up separately. Follow the detailed instructions in the documentation for each dependency:
 
 * [Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/) (auto-installed above)
-* [DynamoDB Local](docs/dynamodb-local.md)
+* [DynamoDB Local](docs/dynamodb-local.md): DynamoDB was chosen bc it is highly scalable with consistent low latency, and while that makes sense for our FC Cloud platform, this open source fork will likely migrate to something like SQLite (or Cloudflare D1 which uses SQLite and works locally in a similar way to R2 for object storage)
 * [ChromaDB](docs/chromadb.md)
 * [via HuggingFace](docs/via-huggingface.md) or [llama.cpp](docs/llama-cpp.md)
