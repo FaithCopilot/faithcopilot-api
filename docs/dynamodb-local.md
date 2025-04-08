@@ -52,7 +52,7 @@ AWS_SECRET_ACCESS_KEY="456ABC"
 sudo docker-compose -f /path/to/faithcopilot-api/docker/docker-compose.yml up
 ```
 
-![[../assets/images/ddb-1.png]]
+![ddb-1.png](../assets/images/ddb-1.png)
 
 *when done (Ctrl+C)*
 ```bash
