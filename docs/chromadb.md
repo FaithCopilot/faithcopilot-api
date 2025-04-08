@@ -15,7 +15,7 @@ pip install chromadb
 chroma run --port 8001 --path /path/to/faithcopilot-api/chromadb
 ```
 
-![chroma-1.png](../assets/images/chroma-1.png)
+![chroma-1b.png](../assets/images/chroma-1b.png)
 
 ## Initial setup
 
