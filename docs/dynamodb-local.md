@@ -65,8 +65,8 @@ via [NoSQL Workbench for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/la
 
 ### Add Connection
 
-![[Pasted image 20250404204008.png]]
+![ddb-2.png](../assets/images/ddb-2.png)
 
 ### Create Table
 
-![[Pasted image 20250404203625.png]]
+![ddb-3.png](../assets/images/ddb-3.png)
