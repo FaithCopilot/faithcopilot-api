@@ -46,7 +46,7 @@ Before you begin, ensure you have the following installed:
     ```bash
     pnpm install
     ```
-4.  Start the API service:
+4.  Start the App:
     ```bash
     pnpm run dev
     ```
