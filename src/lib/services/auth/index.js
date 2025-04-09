@@ -1,6 +1,11 @@
 import { generateTsuid } from "@/services/uuid/ulid";
 
-import { generateToken, parseToken } from "@/services/crypto";
+import {
+  generateToken,
+  parseToken,
+  hashPassword,
+  comparePassword
+} from "@/services/crypto";
 
 import { selectIdentity, insertTx } from "@/services/db/dynamodb";
 
@@ -17,7 +22,7 @@ import {
 export const getNextLocation = ({ currentLocation, userData }) => {
   if (currentLocation === LocationConstants.LOGIN) {
     return LocationConstants.HOME;
-  }
+  };
   return LocationConstants.LOGIN;
 };
 
@@ -97,15 +102,24 @@ const handleSignup = async ({ request, env, email, email_verified, password, pro
     email_verified,
   };
   // authenticate user and respond with next location
-  return authenticatedResponse({ env, oid, subject: uid, claims, userData: emailData });
+  return authenticatedResponse({
+    env,
+    oid,
+    subject: uid,
+    claims,
+    currentLocation: password ? LocationConstants.SIGNUP : LocationConstants.LOGIN,
+    userData: emailData
+  });
 };
 
 export const signup = async (request, env) => {
   const { email, password } = env?.request?.content;
   if (!email || !password) {
     return new Response("Bad request", { status: 400 });
-  }
-  return handleSignup({ request, env, email, password });
+  };
+  // NOTE: Local only, no email verification
+  const email_verified = true;
+  return handleSignup({ request, env, email, email_verified, password });
 };
 
 export const validateHardcodedEmail = async({ email, allowlist, blocklist }) => {
@@ -145,7 +159,7 @@ export const getUserDataByEmail = async ({ env, email }) => {
   return res?.data;
 };
 
-const authenticatedResponse = async ({ env, oid, subject, claims, userData }) => {
+const authenticatedResponse = async ({ env, oid, subject, claims, currentLocation, userData }) => {
   if (!claims) claims = {};
   const jwt = await generateToken({ env, oid, subject, claims });
   if (!jwt) {
@@ -159,8 +173,7 @@ const authenticatedResponse = async ({ env, oid, subject, claims, userData }) =>
     //state: "xyz"
   };
   // respond with next location
-  // TODO: do not include JWT in response body
-  const response = new Response(JSON.stringify(bearerToken), { status: 200 });
+  const response = new Response(null, { status: 200 });
   response.headers.set("Cache-Control", "no-store");
   response.headers.set("Content-Type", "application/json");
   response.headers.set(
@@ -169,23 +182,23 @@ const authenticatedResponse = async ({ env, oid, subject, claims, userData }) =>
   );
   const nextLocation = getNextLocation({
     env,
-    currentLocation: LocationConstants.LOGIN,
+    currentLocation,
     userData,
   });
   if (nextLocation) {
     response.headers.set("X-Location", nextLocation);
-  }
+  };
   return response;
 };
 
 const handleGrantTypePassword = async ({ env, data }) => {
   const { email, password } = data;
+  console.log("handleGrantTypePassword", { email, password });
   if (!email || !password) {
     return new Response("Unauthorized", { status: 401 });
   }
   const userData = await getUserDataByEmail({ env, email });
-  //if (!userData?.oid || !userData?.uid || !userData?.hashedPassword) {
-  if (!userData?.uid || !userData?.hashedPassword) {
+  if (!userData?.oid || !userData?.uid || !userData?.hashedPassword) {
     return new Response("Unauthorized", { status: 401 });
   }
   const { oid, uid, hashedPassword } = userData;
@@ -199,7 +212,14 @@ const handleGrantTypePassword = async ({ env, data }) => {
     email_verified: userData?.email_verified ?? false,
   };
   // authenticate user and respond with next location
-  return authenticatedResponse({ env, oid, subject: uid, claims, userData });
+  return authenticatedResponse({
+    env,
+    oid,
+    subject: uid,
+    claims,
+    currentLocation: LocationConstants.LOGIN,
+    userData
+  });
 };
 
 const handleGrantTypeTokenExchange = async ({ request, env, data, provider }) => {
@@ -235,7 +255,14 @@ const handleGrantTypeTokenExchange = async ({ request, env, data, provider }) =>
     email_verified,
   };
   // authenticate user and respond with next location
-  return authenticatedResponse({ env, oid, subject: uid, claims, userData });
+  return authenticatedResponse({
+    env,
+    oid,
+    subject: uid,
+    claims,
+    currentLocation: LocationConstants.LOGIN,
+    userData
+  });
 };
 
 export const token = async (request, env) => {

@@ -3,12 +3,16 @@ import {
   generateToken as generateToken_jose,
   parseToken as parseToken_jose,
   verifyToken as verifyToken_jose,
-} from "./jose.js";
+} from "./jose";
 
-const DEFAULT_PROVIDER = PROVIDER_JOSE;
+import {
+  PROVIDER as PROVIDER_BCRYPTJS,
+  hashPassword as hashPassword_bcryptjs,
+  comparePassword as comparePassword_bcryptjs,
+} from "./bcryptjs";
 
 export const generateToken = async (args) => {
-  const provider = args?.provider || DEFAULT_PROVIDER;
+  const provider = args?.provider || PROVIDER_JOSE;
   switch (provider) {
     case PROVIDER_JOSE:
       return generateToken_jose(args);
@@ -18,7 +22,7 @@ export const generateToken = async (args) => {
 };
 
 export const parseToken = async (args) => {
-  const provider = args?.provider || DEFAULT_PROVIDER;
+  const provider = args?.provider || PROVIDER_JOSE;
   switch (provider) {
     case PROVIDER_JOSE:
       return parseToken_jose(args);
@@ -28,10 +32,30 @@ export const parseToken = async (args) => {
 };
 
 export const verifyToken = async (args) => {
-  const provider = args?.provider || DEFAULT_PROVIDER;
+  const provider = args?.provider || PROVIDER_JOSE;
   switch (provider) {
     case PROVIDER_JOSE:
       return verifyToken_jose(args);
+    default:
+      throw new Error("Invalid Provider");
+  }
+};
+
+export const hashPassword = async (args) => {
+  const provider = args?.provider || PROVIDER_BCRYPTJS;
+  switch (provider) {
+    case PROVIDER_BCRYPTJS:
+      return hashPassword_bcryptjs(args);
+    default:
+      throw new Error("Invalid Provider");
+  }
+};
+
+export const comparePassword = async (args) => {
+  const provider = args?.provider || PROVIDER_BCRYPTJS;
+  switch (provider) {
+    case PROVIDER_BCRYPTJS:
+      return comparePassword_bcryptjs(args);
     default:
       throw new Error("Invalid Provider");
   }

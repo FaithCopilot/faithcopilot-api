@@ -110,7 +110,8 @@ router.use(
     */
     credentials: true,
     // TODO: test which of these may be removed
-    allowHeaders: [ "X-Location", "Set-Cookie", "Cookie", "Authorization", "Content-Type", "Origin", "Accept" ]
+    allowHeaders: [ "X-Location", "Set-Cookie", "Cookie", "Authorization", "Content-Type", "Origin", "Accept" ],
+    exposeHeaders: [ "X-Location" ]
   })
 );
 

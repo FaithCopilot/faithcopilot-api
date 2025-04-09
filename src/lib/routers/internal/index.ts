@@ -9,6 +9,7 @@ import chatRouter from "./chat";
 import dataRouter from "./data";
 import indexesRouter from "./indexes";
 import modelsRouter from "./models";
+import proxyRouter from "./proxy";
 import searchRouter from "./search";
 
 const router = new Hono();
@@ -19,6 +20,7 @@ router.use("chat", withAuthInternal);
 router.use("data", withAuthInternal);
 router.use("indexes", withAuthInternal);
 router.use("models", withAuthInternal);
+router.use("proxy", withAuthInternal);
 router.use("search", withAuthInternal);
 
 router.route("auth", authRouter);
@@ -28,6 +30,7 @@ router.route("chat", chatRouter);
 router.route("data", dataRouter);
 router.route("indexes", indexesRouter);
 router.route("models", modelsRouter);
+router.route("proxy", proxyRouter);
 router.route("search", searchRouter);
 
 export default router;
